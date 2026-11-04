@@ -1,0 +1,312 @@
+[
+  {
+    "case_id": "state_energy",
+    "dataset_id": "australian_electricity_demand",
+    "domain": "energy",
+    "description": "Half-hourly electricity demand for Australian states.",
+    "freq": "30min",
+    "frequency_phrase": "half-hourly",
+    "series": [
+      {"series_id": "NSW", "dimensions": {"state": "New South Wales"}},
+      {"series_id": "VIC", "dimensions": {"state": "Victoria"}}
+    ],
+    "allowed_dimensions": ["state"],
+    "allow_dataset_wide": true,
+    "outline_id": "extreme_weather",
+    "event_family": "extreme_weather",
+    "candidates": [
+      {
+        "event_id": "raw_heatwave_tavily",
+        "event_summary_id": "summary_heatwave_tavily",
+        "source_name": "tavily",
+        "source_kind": "web_search",
+        "title": "Southeast Australia heatwave",
+        "description": "A January heatwave affected southeast Australia.",
+        "evidence_quality": "web_snippet",
+        "timestamp": "2014-01-14T00:00:00",
+        "url": "https://example.test/state-energy/tavily",
+        "structured_payload": {"source_hits": ["tavily"]}
+      },
+      {
+        "event_id": "raw_heatwave_anysearch",
+        "event_summary_id": "summary_heatwave_anysearch",
+        "source_name": "anysearch",
+        "source_kind": "web_search",
+        "title": "Heatwave spreads across two NEM states",
+        "description": "New South Wales and Victoria experienced sustained extreme heat.",
+        "evidence_quality": "web_snippet",
+        "timestamp": "2014-01-14T00:00:00",
+        "url": "https://example.test/state-energy/anysearch",
+        "structured_payload": {"source_hits": ["anysearch"]}
+      }
+    ],
+    "selection": {
+      "selected_event_summary_ids": [
+        "summary_heatwave_tavily",
+        "summary_heatwave_anysearch"
+      ],
+      "completion_evidence": "Two independent search results describe the same heatwave episode."
+    },
+    "canonical_events": [
+      {
+        "event_id": "event_2014_southeast_heatwave",
+        "event_start": "2014-01-14T00:00:00",
+        "summary": "On January 14, 2014, a heatwave affected electricity demand conditions across New South Wales and Victoria.",
+        "event_family": "extreme_weather",
+        "context_role": "actual",
+        "affected_scope_claim": "All represented southeast Australian states.",
+        "source_event_summary_ids": [
+          "summary_heatwave_tavily",
+          "summary_heatwave_anysearch"
+        ],
+        "canonical_date_basis": "Both frozen candidates identify January 14 as the episode start.",
+        "merge_or_split_notes": "The two sources were merged as one heatwave episode.",
+        "confidence": 0.95
+      }
+    ],
+    "projection_rules": [
+      {
+        "rule_id": "rule_2014_southeast_heatwave",
+        "event_id": "event_2014_southeast_heatwave",
+        "scope": "dataset",
+        "filters": [],
+        "combine": "all",
+        "basis": "The event scope covers every state represented by this fixture.",
+        "confidence": 0.95
+      }
+    ],
+    "expected_event_dates": {
+      "event_2014_southeast_heatwave": "2014-01-14T00:00:00"
+    },
+    "expected_links": [
+      ["event_2014_southeast_heatwave", "NSW"],
+      ["event_2014_southeast_heatwave", "VIC"]
+    ],
+    "summary_terms": {
+      "event_2014_southeast_heatwave": ["2014", "heatwave", "New South Wales", "Victoria"]
+    }
+  },
+  {
+    "case_id": "building_primary_use",
+    "dataset_id": "bdg-2_panther",
+    "domain": "energy",
+    "description": "Hourly electricity demand for campus buildings grouped by primary use.",
+    "freq": "1h",
+    "frequency_phrase": "hourly",
+    "series": [
+      {"series_id": "office", "dimensions": {"primary_use": "Office"}},
+      {"series_id": "education", "dimensions": {"primary_use": "Education"}},
+      {"series_id": "lodging", "dimensions": {"primary_use": "Lodging"}}
+    ],
+    "allowed_dimensions": ["primary_use"],
+    "allow_dataset_wide": false,
+    "outline_id": "campus_operations",
+    "event_family": "campus_operations",
+    "candidates": [
+      {
+        "event_id": "raw_ucf_closure",
+        "event_summary_id": "summary_ucf_closure",
+        "source_name": "tavily",
+        "source_kind": "web_search",
+        "title": "UCF announces closure before Hurricane Irma",
+        "description": "The university canceled classes and closed offices before the storm.",
+        "evidence_quality": "web_snippet",
+        "timestamp": "2017-09-06T00:00:00",
+        "url": "https://example.test/building/closure",
+        "structured_payload": {"source_hits": ["tavily", "anysearch"]}
+      }
+    ],
+    "selection": {
+      "selected_event_summary_ids": ["summary_ucf_closure"],
+      "completion_evidence": "The closure directly changed office and teaching operations."
+    },
+    "canonical_events": [
+      {
+        "event_id": "event_2017_ucf_closure",
+        "event_start": "2017-09-06T00:00:00",
+        "summary": "On September 6, 2017, UCF canceled classes and closed campus offices in Orlando while preparing for Hurricane Irma.",
+        "event_family": "campus_operations",
+        "context_role": "decision",
+        "affected_scope_claim": "Education and office primary-use buildings.",
+        "source_event_summary_ids": ["summary_ucf_closure"],
+        "canonical_date_basis": "The frozen university notice gives September 6 as the decision date.",
+        "merge_or_split_notes": "One campus closure decision was retained as one episode.",
+        "confidence": 0.95
+      }
+    ],
+    "projection_rules": [
+      {
+        "rule_id": "rule_2017_ucf_closure",
+        "event_id": "event_2017_ucf_closure",
+        "scope": "dimension_filter",
+        "filters": [
+          {
+            "dimension": "primary_use",
+            "operator": "in",
+            "value": ["Office", "Education"]
+          }
+        ],
+        "combine": "all",
+        "basis": "The notice explicitly covers classes and offices, not lodging.",
+        "confidence": 0.95
+      }
+    ],
+    "expected_event_dates": {
+      "event_2017_ucf_closure": "2017-09-06T00:00:00"
+    },
+    "expected_links": [
+      ["event_2017_ucf_closure", "education"],
+      ["event_2017_ucf_closure", "office"]
+    ],
+    "summary_terms": {
+      "event_2017_ucf_closure": ["2017", "UCF", "classes", "offices", "Orlando"]
+    }
+  },
+  {
+    "case_id": "city_variable_air_quality",
+    "dataset_id": "beijing_air_quality",
+    "domain": "environment",
+    "description": "Hourly pollutant and weather variables for city monitoring stations.",
+    "freq": "1h",
+    "frequency_phrase": "hourly",
+    "series": [
+      {"series_id": "beijing_pm25", "dimensions": {"city": "Beijing", "variable": "PM2.5"}},
+      {"series_id": "beijing_no2", "dimensions": {"city": "Beijing", "variable": "NO2"}},
+      {"series_id": "beijing_temp", "dimensions": {"city": "Beijing", "variable": "TEMP"}},
+      {"series_id": "tianjin_pm25", "dimensions": {"city": "Tianjin", "variable": "PM2.5"}}
+    ],
+    "allowed_dimensions": ["city", "variable"],
+    "allow_dataset_wide": false,
+    "outline_id": "air_policy",
+    "event_family": "air_policy",
+    "candidates": [
+      {
+        "event_id": "raw_clean_air_plan",
+        "event_summary_id": "summary_clean_air_plan",
+        "source_name": "anysearch",
+        "source_kind": "web_search",
+        "title": "Beijing releases clean air action plan",
+        "description": "The plan targeted coal use and urban air pollution controls.",
+        "evidence_quality": "web_snippet",
+        "timestamp": "2013-09-12T00:00:00",
+        "url": "https://example.test/air-quality/plan",
+        "structured_payload": {"source_hits": ["anysearch"]}
+      }
+    ],
+    "selection": {
+      "selected_event_summary_ids": ["summary_clean_air_plan"],
+      "completion_evidence": "The policy is relevant to Beijing pollutant series but not weather variables."
+    },
+    "canonical_events": [
+      {
+        "event_id": "event_2013_beijing_clean_air_plan",
+        "event_start": "2013-09-12T00:00:00",
+        "summary": "On September 12, 2013, Beijing announced a clean-air action plan targeting coal consumption and urban pollutant emissions.",
+        "event_family": "air_policy",
+        "context_role": "decision",
+        "affected_scope_claim": "Beijing pollutant measurements, excluding meteorological variables.",
+        "source_event_summary_ids": ["summary_clean_air_plan"],
+        "canonical_date_basis": "The frozen policy result identifies September 12 as the announcement date.",
+        "merge_or_split_notes": "One policy announcement was retained as one episode.",
+        "confidence": 0.9
+      }
+    ],
+    "projection_rules": [
+      {
+        "rule_id": "rule_2013_beijing_clean_air_plan",
+        "event_id": "event_2013_beijing_clean_air_plan",
+        "scope": "dimension_filter",
+        "filters": [
+          {"dimension": "city", "operator": "eq", "value": "Beijing"},
+          {"dimension": "variable", "operator": "in", "value": ["PM2.5", "NO2"]}
+        ],
+        "combine": "all",
+        "basis": "The plan is city-specific and targets pollutant rather than weather variables.",
+        "confidence": 0.9
+      }
+    ],
+    "expected_event_dates": {
+      "event_2013_beijing_clean_air_plan": "2013-09-12T00:00:00"
+    },
+    "expected_links": [
+      ["event_2013_beijing_clean_air_plan", "beijing_no2"],
+      ["event_2013_beijing_clean_air_plan", "beijing_pm25"]
+    ],
+    "summary_terms": {
+      "event_2013_beijing_clean_air_plan": ["2013", "Beijing", "clean-air", "coal", "pollutant"]
+    }
+  },
+  {
+    "case_id": "road_direction_traffic",
+    "dataset_id": "PEMS_BAY",
+    "domain": "transport",
+    "description": "Five-minute traffic speed for mapped road and direction pairs.",
+    "freq": "5min",
+    "frequency_phrase": "five-minute",
+    "series": [
+      {"series_id": "ca87_nb", "dimensions": {"road": "CA 87", "direction": "northbound"}},
+      {"series_id": "ca87_sb", "dimensions": {"road": "CA 87", "direction": "southbound"}},
+      {"series_id": "ca17_nb", "dimensions": {"road": "CA 17", "direction": "northbound"}}
+    ],
+    "allowed_dimensions": ["road", "direction"],
+    "allow_dataset_wide": false,
+    "outline_id": "road_incident",
+    "event_family": "road_incident",
+    "candidates": [
+      {
+        "event_id": "raw_ca87_crash",
+        "event_summary_id": "summary_ca87_crash",
+        "source_name": "tavily",
+        "source_kind": "web_search",
+        "title": "Fatal crash reported near San Jose airport",
+        "description": "A single-vehicle crash occurred on northbound CA 87.",
+        "evidence_quality": "web_snippet",
+        "timestamp": "2017-01-10T11:30:00",
+        "timestamp_precision": "hour",
+        "url": "https://example.test/traffic/crash",
+        "structured_payload": {"source_hits": ["tavily"]}
+      }
+    ],
+    "selection": {
+      "selected_event_summary_ids": ["summary_ca87_crash"],
+      "completion_evidence": "The report identifies both road and travel direction."
+    },
+    "canonical_events": [
+      {
+        "event_id": "event_2017_ca87_northbound_crash",
+        "event_start": "2017-01-10T11:30:00",
+        "summary": "At 11:30 a.m. on January 10, 2017, a fatal crash occurred on northbound CA 87 near San Jose airport.",
+        "event_family": "road_incident",
+        "context_role": "actual",
+        "affected_scope_claim": "Northbound CA 87 traffic only.",
+        "source_event_summary_ids": ["summary_ca87_crash"],
+        "canonical_date_basis": "The frozen incident result gives the crash time and date.",
+        "merge_or_split_notes": "One crash was retained as one road incident.",
+        "confidence": 0.95
+      }
+    ],
+    "projection_rules": [
+      {
+        "rule_id": "rule_2017_ca87_northbound_crash",
+        "event_id": "event_2017_ca87_northbound_crash",
+        "scope": "dimension_filter",
+        "filters": [
+          {"dimension": "road", "operator": "eq", "value": "CA 87"},
+          {"dimension": "direction", "operator": "eq", "value": "northbound"}
+        ],
+        "combine": "all",
+        "basis": "The incident report explicitly limits the event to northbound CA 87.",
+        "confidence": 0.95
+      }
+    ],
+    "expected_event_dates": {
+      "event_2017_ca87_northbound_crash": "2017-01-10T11:30:00"
+    },
+    "expected_links": [
+      ["event_2017_ca87_northbound_crash", "ca87_nb"]
+    ],
+    "summary_terms": {
+      "event_2017_ca87_northbound_crash": ["2017", "northbound", "CA 87", "San Jose", "crash"]
+    }
+  }
+]

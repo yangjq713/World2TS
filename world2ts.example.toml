@@ -1,0 +1,22 @@
+# World2TS configuration
+# Copy to ./world2ts.toml or ~/.config/world2ts/config.toml
+
+# LOTSA metadata workspace (default: ./store)
+# store_root = "./store"
+
+# Tavily search API keys.
+# Recommended: copy tavily.example.toml to ./tavily.toml and manage keys there.
+# ./tavily.toml is ignored by git and supports api_keys, api_key_envs,
+# usage_cache_seconds, and min_remaining_credits.
+
+# AnySearch search API keys.
+# Recommended: copy anysearch.example.toml to ./anysearch.toml and manage keys there.
+
+# Optional provider credentials for remote series collection.
+# fred_api_key = ""
+# noaa_api_token = ""
+# eia_api_key = ""
+
+# HTTP settings
+# http_timeout = 30
+# http_retries = 3

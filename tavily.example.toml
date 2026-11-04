@@ -1,0 +1,13 @@
+# Copy this file to ./tavily.toml and add your local Tavily keys there.
+# ./tavily.toml is ignored by git.
+
+api_keys = [
+  # "tvly-...",
+  # "tvly-...",
+]
+
+# Optional: keep real keys in environment variables and list their names here.
+# api_key_envs = ["TAVILY_KEY_1", "TAVILY_KEY_2"]
+
+usage_cache_seconds = 300
+min_remaining_credits = 1

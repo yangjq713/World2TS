@@ -1,0 +1,4 @@
+-r requirements.txt
+
+# Official Chronos-2 inference package.
+chronos-forecasting==2.3.1

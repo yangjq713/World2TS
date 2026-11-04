@@ -1,0 +1,28 @@
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+.ruff_cache/
+# Private analysis workspace and datasets (published separately on Hugging Face).
+/world2ts_analysis/
+/analysis/
+/data/
+/store/
+# Local tests for the private analysis workspace.
+/tests/test_analysis_*.py
+# Local scratch output and credentials.
+/tmp/
+/world2ts.toml
+/.env
+/.env.*
+!/.env.example
+*.egg
+.pytest_cache/
+secret/
+tavily.toml
+anysearch.toml
+.worktrees/
+.vscode/
+.DS_Store
+.test_scratch/

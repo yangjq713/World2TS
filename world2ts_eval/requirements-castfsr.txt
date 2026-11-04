@@ -1,0 +1,8 @@
+-r requirements.txt
+
+# CastFSR unified predictor service. Neural experts additionally need a local
+# Time-Series-Library checkout and dataset-specific checkpoints.
+chronos-forecasting==2.3.1
+fastapi>=0.115,<1
+statsmodels>=0.14,<0.15
+uvicorn>=0.31,<1
