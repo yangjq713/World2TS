@@ -18,11 +18,8 @@ event-aware datasets, `world2ts-data` as the cross-domain research dataset, and
 
 | Artifact | Status | Link |
 |---|---|---|
-| Paper | Coming soon | `PAPER_URL_TBD` |
-| Dataset | Coming soon | `DATA_URL_TBD` |
-
-The placeholders above will be replaced when the public paper and dataset
-locations are finalized.
+| Paper | arXiv preprint | [arXiv:2610.14861](https://arxiv.org/abs/2610.14861) |
+| Dataset | Available | [JJqian/world2ts-data on Hugging Face](https://huggingface.co/datasets/JJqian/world2ts-data) |
 
 ## Framework
 
@@ -121,7 +118,9 @@ layout, installation, model adapters, and commands.
 
 ## Milestones
 
-✅ **2026.10** Consolidated project resources and open-sourced World2TS.
+✅ **2026.11** Open-sourced World2TS.
+
+✅ **2026.10** Released the [World2TS preprint on arXiv](https://arxiv.org/abs/2610.14861).
 
 ✅ **2026.08** Renamed the project to World2TS and introduced the
 TSLib-based forecasting evaluation framework.
@@ -158,9 +157,13 @@ If you find World2TS useful, please cite our paper:
 
 ```bibtex
 @misc{liu2026world2ts,
-  title  = {World2TS: Real-World Event Context for Time-Series Forecasting},
-  author = {Zhiding Liu and Jiqian Yang and Mingyue Cheng and Zhi Li and Enhong Chen},
-  year   = {2026},
-  note   = {Manuscript}
+  title         = {{World2TS}: Real-World Event Context for Time-Series Forecasting},
+  author        = {Zhiding Liu and Jiqian Yang and Mingyue Cheng and Zhi Li and Enhong Chen},
+  year          = {2026},
+  eprint        = {2610.14861},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  doi           = {10.48550/arXiv.2610.14861},
+  url           = {https://arxiv.org/abs/2610.14861}
 }
 ```
